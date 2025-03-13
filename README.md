@@ -18,16 +18,16 @@
 
 3. **依存関係をワークスペースに追加する**<br>
     　`src` ディレクトリに以下の依存パッケージをクローンします。
-    ` [Livox-SDK2](https://github.com/Livox-SDK/Livox-SDK2)
-    ` [livox_ros_driver2](https://github.com/Livox-SDK/livox_ros_driver2)
+    - [Livox-SDK2](https://github.com/Livox-SDK/Livox-SDK2)
+    - [livox_ros_driver2](https://github.com/Livox-SDK/livox_ros_driver2)
     ```bash
     vcs import .. < ./depend.respo
     ```
 
     > **`vcs` コマンドが使えない場合** 、以下のコマンドを実行して `vsc` をインストールします。
-        ```bash
-        sudo apt install python3-vcstool
-        ```
+    > ```bash
+    > sudo apt install python3-vcstool
+    > ```
 
 4. **livox_ros_driver2 を編集する**<br>
     ```bash
