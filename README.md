@@ -96,3 +96,9 @@ export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ```bash
 ros2 launch livox_bringup bringup_launch.py --show-args
 ```
+
+---
+
+## SLAM
+### LIO-SAM
+[ROS 2でLIO-SAMを動かす](https://qiita.com/porizou1/items/6693399831a3874d8637) を参考に LIO-SAM をインストールします。
