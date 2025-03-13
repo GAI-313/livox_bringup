@@ -73,7 +73,7 @@ ros2 launch livox_bringup bringup_launch.py
 ```
 　以下の図のように Rviz が起動し、MID-360 からの PointCloud が表示されていれば成功です。
 
-<img width=25% /><img src="/imgs/MID-360.rviz.png" width=50% />
+<img width=10% /><img src="/imgs/MID-360.rviz.png" width=80% />
 
 
 ## Launch Argument
