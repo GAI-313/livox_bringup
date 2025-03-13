@@ -46,7 +46,18 @@
     sudo make install
     ```
 
-2. **ワークスペースをビルドする**<br>
+2. **rosdep**<br>
+    以下のコマンドを実行して依存関係を解決します。
+    ```bash
+    cd ~/colcon_ws
+    rosdep install -i -y --from-path src
+    ```
+    > もしはじめて `rosdep` を使用する場合、上記コマンドを実行前に以下のコマンドを実行してください。
+    > ```bash
+    > sudo rosdep init && rosdep update
+    > ```
+
+3. **ワークスペースをビルドする**<br>
     ```bash
     cd ~/colcon_ws
     colcon build --symlink-install --cmake-args -DROS_EDITION="ROS2" -DHUMBLE_ROS=$ROS_DISTRO
@@ -74,6 +85,11 @@ ros2 launch livox_bringup bringup_launch.py
 　以下の図のように Rviz が起動し、MID-360 からの PointCloud が表示されていれば成功です。
 
 <img width=10% /><img src="/imgs/MID-360.rviz.png" width=80% />
+
+## CycloneDDS に切り替える
+```bash
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+```
 
 
 ## Launch Argument
