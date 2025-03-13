@@ -78,6 +78,12 @@ def generate_launch_description():
         output='screen',
         parameters=parameters
     )
+    node_map_to_lidar = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        arguments='0.0 0.0 0.0 0.0 0.0 0.0 map livox_frame'.split(' '),
+        output='screen'
+    )
     node_rviz2 = Node(
         package='rviz2',
         executable='rviz2',
@@ -86,6 +92,7 @@ def generate_launch_description():
     )
 
     ld.add_action(node_livox)
+    ld.add_action(node_map_to_lidar)
     ld.add_action(node_rviz2)
 
     
