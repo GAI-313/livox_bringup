@@ -21,7 +21,7 @@
     - [Livox-SDK2](https://github.com/Livox-SDK/Livox-SDK2)
     - [livox_ros_driver2](https://github.com/Livox-SDK/livox_ros_driver2)
     ```bash
-    vcs import .. < ./depend.respo
+    vcs import .. < ./depend.repos
     ```
 
     > **`vcs` コマンドが使えない場合** 、以下のコマンドを実行して `vsc` をインストールします。
