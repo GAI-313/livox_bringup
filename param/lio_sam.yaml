@@ -2,11 +2,14 @@
   ros__parameters:
 
     # Topics
-    pointCloudTopic: "/livox/lidar"
-    imuTopic: "/livox/imu"
+    pointCloudTopic: "/livox/lidar"                   # Point cloud data
+    imuTopic: "/livox/imu"                        # IMU data
+    odomTopic: "/livox/imu"                    # IMU pre-preintegration odometry, same frequency as IMU
 
     # Frames
     lidarFrame: "livox_frame"
+    baselinkFrame: "base_link"
+    odometryFrame: "odom"
     mapFrame: "map"
 
     # GPS Settings

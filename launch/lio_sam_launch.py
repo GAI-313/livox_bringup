@@ -1,84 +1,75 @@
-#!/usr/bin/env python3
+import os
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
-
-from ament_index_python.packages import get_package_share_directory
-import os
 
 
 def generate_launch_description():
 
-    ld = LaunchDescription()
+    share_dir = get_package_share_directory('livox_bringup')
+    parameter_file = LaunchConfiguration('params_file')
+    rviz_config_file = os.path.join(share_dir, 'config', 'lio_sam.rviz')
+    xacro_path = os.path.join(share_dir, 'config', 'demo.urdf.xacro')
 
+    params_declare = DeclareLaunchArgument(
+        'params_file',
+        default_value=os.path.join(
+            share_dir, 'param', 'lio_sam.yaml'),
+        description='FPath to the ROS2 parameters file to use.')
 
-    plefix_this_pkg = get_package_share_directory('livox_bringup')
-
-
-    default_paramfile_path = os.path.join(
-        plefix_this_pkg,
-        'param', 'lio_sam.yaml'
-    )
-
-
-    rviz_path = os.path.join(
-        plefix_this_pkg,
-        'config', 'lio_sam.rviz'
-    )
-
-
-    config_params_file_path = LaunchConfiguration('params_file_path')
-
-
-    declare_params_file_path = DeclareLaunchArgument(
-        'params_file_path', default_value=default_paramfile_path,
-        description='LIO_SAM 用のパラメータ YAML ファイルを指定します。'
-    )
-
-    ld.add_action(declare_params_file_path)
-
-
-    node_imu_preintegration = Node(
-        package='lio_sam',
-        executable='lio_sam_imuPreintegration',
-        name='lio_sam_imuPreintegration',
-        parameters=[config_params_file_path],
-        output='screen'
-    )
-    node_image_projection = Node(
-        package='lio_sam',
-        executable='lio_sam_imageProjection',
-        name='lio_sam_imageProjection',
-        parameters=[config_params_file_path],
-        output='screen'
-    )
-    node_feature_extraction = Node(
-        package='lio_sam',
-        executable='lio_sam_featureExtraction',
-        name='lio_sam_featureExtraction',
-        parameters=[config_params_file_path],
-        output='screen'
-    )
-    node_map_optimization = Node(
-        package='lio_sam',
-        executable='lio_sam_mapOptimization',
-        name='lio_sam_mapOptimization',
-        parameters=[config_params_file_path],
-        output='screen'
-    )
-    node_rviz2 = Node(
-        package='rviz2',
-        executable='rviz2',
-        arguments=['-d', rviz_path],
-    )
-
-    ld.add_action(node_imu_preintegration)
-    ld.add_action(node_image_projection)
-    ld.add_action(node_feature_extraction)
-    ld.add_action(node_map_optimization)
-    ld.add_action(node_rviz2)
-
-
-    return ld
+    return LaunchDescription([
+        params_declare,
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments='0.0 0.0 0.0 0.0 0.0 0.0 map odom'.split(' '),
+            parameters=[parameter_file],
+            output='screen'
+            ),
+        Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            parameters=[{
+                'robot_description': Command(['xacro', ' ', xacro_path])
+            }]
+        ),
+        Node(
+            package='lio_sam',
+            executable='lio_sam_imuPreintegration',
+            name='lio_sam_imuPreintegration',
+            parameters=[parameter_file],
+            output='screen'
+        ),
+        Node(
+            package='lio_sam',
+            executable='lio_sam_imageProjection',
+            name='lio_sam_imageProjection',
+            parameters=[parameter_file],
+            output='screen'
+        ),
+        Node(
+            package='lio_sam',
+            executable='lio_sam_featureExtraction',
+            name='lio_sam_featureExtraction',
+            parameters=[parameter_file],
+            output='screen'
+        ),
+        Node(
+            package='lio_sam',
+            executable='lio_sam_mapOptimization',
+            name='lio_sam_mapOptimization',
+            parameters=[parameter_file],
+            output='screen'
+        ),
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d', rviz_config_file],
+            output='screen'
+        )
+    ])

@@ -9,12 +9,12 @@ def generate_launch_description():
             name='map_conversion',
             output='screen',
             parameters=[{
-                'map_frame': 'map',
+                'map_frame': 'camera_init',
                 'minimum_z': 1.0,
                 'max_slope_ugv': 0.2,
                 'slope_estimation_size': 2,
                 'minimum_occupancy': 10,
-                'partial_map_updates': True,
+                'partial_map_updates': False,
                 #QoS parameters
                 'subscriber_qos_reliable': True,
                 'subscriber_qos_transient_local': False,

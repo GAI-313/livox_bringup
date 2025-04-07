@@ -9,12 +9,14 @@ def generate_launch_description():
             name='octomap_server',
             parameters=[
                 {'resolution': 0.1},
-                {'min_x_size': 1000.0},
-                {'min_y_size': 1000.0},
-                {'frame_id': 'map'}
+                {'occupancy_max_z': 1.5},
+                {'occupancy_min_z': -100.0},
+                {'min_x_size': 100.0},
+                {'min_y_size': 100.0},
+                {'frame_id': 'camera_init'}
             ],
             remappings=[
-                ('cloud_in', '/glim_ros/map'),
+                ('cloud_in', '/Laser_map'),
                 ('octomap', '/octomap')
             ]
         )
