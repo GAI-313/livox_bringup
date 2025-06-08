@@ -92,7 +92,7 @@ def generate_launch_description():
     )
 
     ld.add_action(node_livox)
-    ld.add_action(node_map_to_lidar)
+    #ld.add_action(node_map_to_lidar)
     ld.add_action(node_rviz2)
 
     
